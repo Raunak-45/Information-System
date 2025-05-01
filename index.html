@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Class-VIII Information System | Vivekananda</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="themes.css" id="theme-style">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="light-theme">
+    <div class="container">
+        <header class="app-header">
+            <div class="header-content">
+                <h1>Information Cards System <span>Class-VIII, Vivekananda</span></h1>
+                <div class="header-meta">
+                    <span class="author-badge">Proudly coded by Raunak Basak</span>
+                    <div class="theme-switcher">
+                        <button id="theme-toggle"><i class="fas fa-moon"></i></button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="search-container">
+                <div class="search-box">
+                    <input type="text" id="search-input" placeholder="Search cards..." autocomplete="off">
+                    <button id="search-btn"><i class="fas fa-search"></i></button>
+                    <div class="search-filters">
+                        <select id="filter-category">
+                            <option value="all">All Categories</option>
+                            <option value="notes">Study Notes</option>
+                            <option value="assignment">Assignments</option>
+                            <option value="resource">Resources</option>
+                            <option value="other">Other</option>
+                        </select>
+                        <button id="clear-search" title="Clear search"><i class="fas fa-times"></i></button>
+                    </div>
+                </div>
+                <div class="search-stats">
+                    <span id="search-time"></span>
+                    <span id="card-count">0 cards</span>
+                </div>
+            </div>
+        </header>
+
+        <main class="cards-container" id="cards-container">
+            <!-- Cards will be dynamically loaded here -->
+        </main>
+
+        <div class="floating-actions">
+            <button class="fab" id="add-card-btn" title="Add new card"><i class="fas fa-plus"></i></button>
+            <button class="fab secondary" id="export-all-btn" title="Export all cards"><i class="fas fa-file-export"></i></button>
+        </div>
+
+        <footer class="app-footer">
+            <p>Made with <span class="heart">🧡</span> by Raunak Basak</p>
+            <div class="footer-links">
+                <a href="#" id="help-btn"><i class="fas fa-question-circle"></i> Help</a>
+                <a href="#" id="keyboard-shortcuts">Keyboard Shortcuts</a>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Card Template (hidden) -->
+    <template id="card-template">
+        <div class="info-card">
+            <div class="card-header">
+                <h2 class="card-title">New Card</h2>
+                <div class="card-actions">
+                    <button class="card-btn edit-btn" title="Edit"><i class="fas fa-edit"></i></button>
+                    <button class="card-btn delete-btn" title="Delete"><i class="fas fa-trash"></i></button>
+                    <button class="card-btn pin-btn" title="Pin/Unpin"><i class="fas fa-thumbtack"></i></button>
+                </div>
+            </div>
+            <div class="card-content">
+                <p class="card-text">Card content goes here...</p>
+                <div class="attachments-container"></div>
+            </div>
+            <div class="card-footer">
+                <span class="card-category">uncategorized</span>
+                <span class="card-date">Just now</span>
+            </div>
+        </div>
+    </template>
+
+    <!-- Modals -->
+    <div class="modal" id="card-modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2 id="modal-title">Add New Card</h2>
+            <form id="card-form">
+                <div class="form-group">
+                    <label for="card-title-input">Title</label>
+                    <input type="text" id="card-title-input" required autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label for="card-content-input">Content</label>
+                    <textarea id="card-content-input" rows="4" autocomplete="off"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="card-category">Category</label>
+                    <select id="card-category">
+                        <option value="notes">Study Notes</option>
+                        <option value="assignment">Assignments</option>
+                        <option value="resource">Resources</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Attachments <small>(Max 5MB each)</small></label>
+                    <div class="file-upload">
+                        <input type="file" id="file-input" multiple>
+                        <label for="file-input" class="upload-btn">
+                            <i class="fas fa-paperclip"></i> Add Files
+                        </label>
+                        <div id="file-list"></div>
+                    </div>
+                </div>
+                <button type="submit" class="submit-btn">Save Card</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal" id="help-modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Help & Instructions</h2>
+            <div class="help-content">
+                <h3>Using the Information Cards System</h3>
+                <ul>
+                    <li><strong>Add cards:</strong> Click the + button or press Ctrl+N</li>
+                    <li><strong>Search:</strong> Type in the search box and press Enter</li>
+                    <li><strong>Filter:</strong> Use the category dropdown to filter cards</li>
+                    <li><strong>Pin cards:</strong> Click the thumbtack icon to pin important cards</li>
+                    <li><strong>Export:</strong> Click the export button to save all cards as JSON</li>
+                </ul>
+                
+                <h3>Keyboard Shortcuts</h3>
+                <div class="shortcuts-grid">
+                    <div class="shortcut-item">
+                        <span class="key">Ctrl+N</span>
+                        <span class="action">New card</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <span class="key">Ctrl+F</span>
+                        <span class="action">Focus search</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <span class="key">Esc</span>
+                        <span class="action">Close modal</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="storage.js"></script>
+    <script type="module" src="cards.js"></script>
+    <script type="module" src="search.js"></script>
+    <script type="module" src="main.js"></script>
+</body>
+</html>

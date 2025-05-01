@@ -1,0 +1,61 @@
+/* Theme switching classes */
+.light-theme {
+    --bg-color: var(--light-bg);
+    --text-color: var(--light-text);
+    --card-bg: var(--light-card);
+    --border-color: var(--light-border);
+}
+
+.dark-theme {
+    --bg-color: var(--dark-bg);
+    --text-color: var(--dark-text);
+    --card-bg: var(--dark-card);
+    --border-color: var(--dark-border);
+}
+
+/* Theme toggle button styles */
+#theme-toggle {
+    background: none;
+    border: none;
+    color: var(--primary-color);
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: var(--transition);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#theme-toggle:hover {
+    background-color: rgba(230, 126, 34, 0.1);
+}
+
+.dark-theme #theme-toggle {
+    color: var(--light-text);
+}
+
+/* Dark theme specific adjustments */
+.dark-theme .modal-content {
+    background-color: var(--dark-card);
+    color: var(--dark-text);
+}
+
+.dark-theme .form-group input,
+.dark-theme .form-group textarea,
+.dark-theme .form-group select {
+    background-color: var(--dark-card);
+    color: var(--dark-text);
+    border-color: var(--dark-border);
+}
+
+.dark-theme .file-item {
+    background-color: #444;
+    color: var(--dark-text);
+}
+
+.dark-theme .action {
+    color: #999;
+}
