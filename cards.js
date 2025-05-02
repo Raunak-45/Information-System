@@ -1,9 +1,4 @@
-// Attach to global window object instead of ES6 exports
-window.cardUtils = {
-    cards: cards, // Your card array
-    handleFileUpload: handleFileUpload,
-    initCardEvents: initCardEvents
-  };
+import { saveCards, loadCards } from './storage.js';
 
 // Card data management
 let cards = loadCards() || [
