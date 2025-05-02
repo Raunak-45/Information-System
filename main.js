@@ -2,6 +2,47 @@ import { cards, handleFileUpload, initCardEvents } from './cards.js';
 import { initSearch, performSearch, buildSearchIndex } from './search.js';
 import { saveCards, loadCards } from './storage.js';
 
+// Initialize cards array
+let cards = [];
+
+// Load cards with callback (no npm needed)
+loadCards(function(loadedCards) {
+  cards = loadedCards || [
+    // Default cards
+    {
+      id: 1,
+      title: 'Card 1',
+      content: 'Something useful',
+      category: 'notes',
+      date: new Date().toISOString(),
+      pinned: false,
+      attachments: []
+    },
+    {
+      id: 2,
+      title: 'Card 2',
+      content: 'No attachment',
+      category: 'assignment',
+      date: new Date().toISOString(),
+      pinned: false,
+      attachments: []
+    },
+    {
+      id: 3,
+      title: 'Card 3',
+      content: 'Another file here',
+      category: 'resource',
+      date: new Date().toISOString(),
+      pinned: false,
+      attachments: []
+    }
+  ];
+  
+  renderCards(); // Update UI
+});
+
+// Rest of your existing main.js code...
+
 // DOM Elements
 const themeToggle = document.getElementById('theme-toggle');
 const addCardBtn = document.getElementById('add-card-btn');
