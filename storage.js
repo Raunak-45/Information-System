@@ -1,23 +1,32 @@
-// Firestore reference assumed to be set as `db` in index.html
-const cardsCollection = firebase.firestore().collection('cards');
+// LocalStorage management for cards
+const STORAGE_KEY = 'classVIII_cards';
 
-// Save a card to Firestore
-function saveCard(card) {
-    return cardsCollection.add(card);
+export function saveCards(cards) {
+    try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(cards));
+        return true;
+    } catch (e) {
+        console.error('Failed to save cards:', e);
+        alert('Failed to save cards to storage. Data might be too large.');
+        return false;
+    }
 }
 
-// Get all cards from Firestore
-async function getCards() {
-    const snapshot = await cardsCollection.get();
-    return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+export function loadCards() {
+    try {
+        const cards = localStorage.getItem(STORAGE_KEY);
+        return cards ? JSON.parse(cards) : null;
+    } catch (e) {
+        console.error('Failed to load cards:', e);
+        return null;
+    }
 }
 
-// Update card
-function updateCard(id, updatedData) {
-    return cardsCollection.doc(id).update(updatedData);
+export function clearStorage() {
+    localStorage.removeItem(STORAGE_KEY);
 }
 
-// Delete card
-function deleteCard(id) {
-    return cardsCollection.doc(id).delete();
+// Export for testing
+if (typeof window !== 'undefined') {
+    window.__storage = { saveCards, loadCards, clearStorage };
 }
